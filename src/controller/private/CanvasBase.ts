@@ -18,6 +18,7 @@ export class CanvasBase implements ICanvasBase {
   key: number;
   width: number;
   height: number;
+  is3D: boolean;
   // @ts-expect-error
   protected p5: p5Types;
 
@@ -26,6 +27,7 @@ export class CanvasBase implements ICanvasBase {
     this.key = args.hotReloadCanvas ? Math.random() : 1;
     this.width = args.width || 500;
     this.height = args.height || 500;
+    this.is3D = false;
   }
 
   public setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -35,7 +37,7 @@ export class CanvasBase implements ICanvasBase {
   protected init = (p5: p5Types, canvasParentRef: Element) => {
     this.p5 = p5;
     const canvas = p5
-      .createCanvas(this.width, this.height)
+      .createCanvas(this.width, this.height, this.is3D ? p5.WEBGL : p5.P2D)
       .parent(canvasParentRef);
 
     return canvas;
